@@ -2,37 +2,37 @@ let workspaces = JSON.parse(localStorage.getItem('workspaces'))
 let currentWorkspace = workspaces ? workspaces[0] : null
 
 $(document).ready(() => {
-  if (workspaces) {
-    setWorkspaces()
-  } else {
-    $("#selectWorkspace").hide()
-    $("#workspaceTitle").text('Aucun workspace n\'a encore été créé')
-    $('#removeWorkspace').hide()
-  }
+  setWorkspaces()
 })
 
 const setWorkspaces = () => {
   const fichesContainer = $("#fichesContainer")
   fichesContainer.html('')
   $("#workspacesList").html('')
-  $("#selectWorkspace").html(currentWorkspace.name + ' <span class="caret"></span>')
-  $("#workspaceTitle").text(currentWorkspace.name)
-  for (let i = 0; i < workspaces.length; i++) {
-    if (workspaces[i].name !== currentWorkspace.name) {
-      const selectWorkspaceElem = $('<li></li>', {
-        html: '<a style="cursor: pointer">' + workspaces[i].name + '</a>',
-        click: () => {
-          setCurrentWorkspace(workspaces[i])
-        }
-      })
-      $("#workspacesList").append(selectWorkspaceElem)
+  if (workspaces && workspaces.length > 0) {
+    $("#selectWorkspace").html(currentWorkspace.name + ' <span class="caret"></span>')
+    $("#workspaceTitle").text(currentWorkspace.name)
+    for (let i = 0; i < workspaces.length; i++) {
+      if (workspaces[i].name !== currentWorkspace.name) {
+        const selectWorkspaceElem = $('<li></li>', {
+          html: '<a style="cursor: pointer">' + workspaces[i].name + '</a>',
+          click: () => {
+            setCurrentWorkspace(workspaces[i])
+          }
+        })
+        $("#workspacesList").append(selectWorkspaceElem)
+      }
     }
-  }
-
-  if (currentWorkspace.fiches) {
-    for (let fiche of currentWorkspace.fiches) {
-      fichesContainer.append(createFicheElem(fiche))
+  
+    if (currentWorkspace.fiches && currentWorkspace.fiches.length > 0) {
+      for (let fiche of currentWorkspace.fiches) {
+        fichesContainer.append(createFicheElem(fiche))
+      }
     }
+  } else {
+    $("#selectWorkspace").hide()
+    $("#workspaceTitle").text('Aucun workspace n\'a encore été créé')
+    $('#removeWorkspace').hide()
   }
 }
 
@@ -71,8 +71,10 @@ const createFicheElem = (fiche) => {
 const removeWorkspace = () => {
   workspaces = workspaces.filter(x => x.name !== currentWorkspace.name)
   localStorage.setItem('workspaces', JSON.stringify(workspaces))
-  if (workspaces) {
+  if (workspaces && workspaces.length > 0) {
     setCurrentWorkspace(workspaces[0])
+  } else {
+    setCurrentWorkspace(null)
   }
   setWorkspaces()
 }

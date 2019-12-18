@@ -29,10 +29,10 @@ const setWorkspaces = () => {
       name: $(fiche).text(),
       href: $(fiche).find('a').attr('href')
     }
-    if (workspaces) {
+    if (workspaces && workspaces.length > 0) {
       for (let workspace of workspaces) {
         let isInWorkspace = false
-        if (workspace.fiches) {
+        if (workspace.fiches && workspace.fiches.length > 0) {
           for (let currFiche of workspace.fiches) {
             if (currFiche.name === newFiche.name) {
               isInWorkspace = true
@@ -65,7 +65,7 @@ const setWorkspaces = () => {
 }
 
 const addToWorkspace = (workspace, fiche) => {
-  workspace.fiches = workspace.fiches ? [...workspace.fiches, fiche] : [fiche]
+  workspace.fiches = workspace.fiches && workspace.fiches.length > 0 ? [...workspace.fiches, fiche] : [fiche]
   localStorage.setItem('workspaces', JSON.stringify(workspaces))
   setWorkspaces()
 }
@@ -77,7 +77,7 @@ const setCurrentFiche = (fiche) => {
 const createWorkspace = (inputId) => {
   const inputValue = $("#" + inputId).val().trim()
   if (inputValue) {
-    if (workspaces) {
+    if (workspaces && workspaces.length > 0) {
       for (let i = 0; i < workspaces.length; i++) {
         if (workspaces[i].name === inputValue) {
           return
@@ -88,7 +88,7 @@ const createWorkspace = (inputId) => {
       name: inputValue,
       fiches: [currentFiche]
     }
-    workspaces = workspaces ? [...workspaces, newWorkspace] : [newWorkspace]
+    workspaces = workspaces && workspaces.length > 0 ? [...workspaces, newWorkspace] : [newWorkspace]
     localStorage.setItem('workspaces', JSON.stringify(workspaces))
     setWorkspaces()
   }
