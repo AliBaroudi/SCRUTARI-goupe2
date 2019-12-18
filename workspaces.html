@@ -15,11 +15,16 @@
   <div class="container">
     <a style="margin-top: 5px" class="btn btn-info" href="./index.html">Recherche</a>
     <div id="mainContainer">
-      <div class="btn-group">
-        <button id="selectWorkspace" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+      <div class="workspaces">
+        <div class="btn-group">
+          <button id="selectWorkspace" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          </button>
+          <ul id="workspacesList" class="dropdown-menu" role="menu">
+          </ul>
+        </div>
+        <button onclick="removeWorkspace()" id="removeWorkspace" style="margin-left: 3px" class="btn btn-danger">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         </button>
-        <ul id="workspacesList" class="dropdown-menu" role="menu">
-        </ul>
       </div>
       <h2 id="workspaceTitle"></h2>
       <div id="fichesContainer">
