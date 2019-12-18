@@ -2,7 +2,8 @@ let isCheckingResults = false
 let workspaces = JSON.parse(localStorage.getItem('workspaces'))
 let currentFiche = {
   name: '',
-  href: ''
+  href: '',
+  done: false
 }
 
 // $(document).ready(() => {
@@ -31,9 +32,11 @@ const setWorkspaces = () => {
     if (workspaces) {
       for (let workspace of workspaces) {
         let isInWorkspace = false
-        for (let currFiche of workspace.fiches) {
-          if (currFiche.name === newFiche.name) {
-            isInWorkspace = true
+        if (workspace.fiches) {
+          for (let currFiche of workspace.fiches) {
+            if (currFiche.name === newFiche.name) {
+              isInWorkspace = true
+            }
           }
         }
         const addToWorkSpaceElem = $('<li></li>', {
@@ -74,6 +77,13 @@ const setCurrentFiche = (fiche) => {
 const createWorkspace = (inputId) => {
   const inputValue = $("#" + inputId).val().trim()
   if (inputValue) {
+    if (workspaces) {
+      for (let i = 0; i < workspaces.length; i++) {
+        if (workspaces[i].name === inputValue) {
+          return
+        }
+      }
+    }
     const newWorkspace = {
       name: inputValue,
       fiches: [currentFiche]
